@@ -23,7 +23,7 @@ function Calendar({
         selected: "bg-slate-900 text-slate-50 hover:bg-slate-900 hover:text-slate-50",
         range_start: "bg-slate-900 text-slate-50",
         range_end: "bg-slate-900 text-slate-50",
-        range_middle: "bg-slate-100 text-slate-900",
+        range_middle: "bg-slate-600 text-white",
         today: "bg-accent text-accent-foreground font-semibold"
       }}
       classNames={{

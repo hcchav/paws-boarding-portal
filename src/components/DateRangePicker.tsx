@@ -71,18 +71,13 @@ export function DateRangePicker({
   const handleRangeSelect = (range: DateRange | undefined) => {
     setSelectedRange(range)
     
-    // Only call onChange and close when we have a complete valid range
-    if (range?.from && range?.to) {
-      if (isValidBookingRange(range)) {
-        onChange?.(range)
-        setOpen(false)
-      } else {
-        // Show validation error - for now we'll just not close the dialog
-        console.log("Invalid booking range - must be weeknights (Mon-Thu) or weekend package (Fri-Mon)")
-      }
+    // Always update the parent component when range changes
+    if (range?.from && range?.to && isValidBookingRange(range)) {
+      onChange?.(range)
     }
-    // If we only have a start date, keep the dialog open for end date selection
-    // Don't call onChange until we have both dates
+    
+    // Never auto-close the dialog - let user close manually
+    // This allows users to see their selection and make adjustments if needed
   }
 
   const formatDateRange = (range: DateRange | undefined): string => {
