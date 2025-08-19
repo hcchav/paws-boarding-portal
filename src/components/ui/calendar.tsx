@@ -23,7 +23,7 @@ function Calendar({
         selected: "bg-blue-600 text-white hover:bg-blue-600 hover:text-white",
         range_start: "bg-blue-600 text-white",
         range_end: "bg-blue-600 text-white",
-        range_middle: "bg-blue-400 text-white",
+        range_middle: "bg-blue-400 text-gray-900",
         today: "bg-accent text-accent-foreground font-semibold",
         disabled: "bg-gray-300 text-gray-500 opacity-60 hover:bg-gray-300 hover:text-gray-500",
         pastDate: "bg-gray-300 text-gray-500 opacity-60 hover:bg-gray-300 hover:text-gray-500",
@@ -32,15 +32,15 @@ function Calendar({
       classNames={{
         months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0 relative",
         month: "space-y-4",
-        caption: "flex justify-center pt-1 relative items-center",
+        caption: "relative flex justify-center items-center pt-1 w-full",
         caption_label: "text-sm font-medium",
-        nav: "space-x-1 flex items-center",
+        nav: "absolute inset-0 flex justify-between items-center pointer-events-none",
         nav_button: cn(
           "inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
-          "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100"
+          "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 pointer-events-auto"
         ),
-        nav_button_previous: "absolute left-1 top-1",
-        nav_button_next: "absolute right-1 top-1",
+        nav_button_previous: "ml-1",
+        nav_button_next: "mr-1",
         table: "w-full border-collapse space-y-1",
         head_row: "flex",
         head_cell:
@@ -57,7 +57,7 @@ function Calendar({
           "bg-slate-900 text-slate-50 hover:bg-slate-900 hover:text-slate-50 focus:bg-slate-900 focus:text-slate-50 aria-selected:bg-slate-900 aria-selected:text-slate-50",
         day_today: "bg-accent text-accent-foreground",
         day_outside:
-          "day-outside text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
+          "invisible",
         day_disabled: "text-muted-foreground opacity-50",
         day_range_middle:
           "aria-selected:bg-accent aria-selected:text-accent-foreground",

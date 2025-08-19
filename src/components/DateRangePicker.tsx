@@ -124,14 +124,6 @@ export function DateRangePicker({
           <DialogTitle>Select Boarding Dates</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
-          {/* Calendar Instructions */}
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h3 className="font-semibold text-blue-800 mb-2">Select Your Dates</h3>
-            <p className="text-blue-700 text-sm">
-              Choose your check-in and check-out dates. Red dates are unavailable due to existing bookings.
-            </p>
-          </div>
-
           {/* Calendar */}
           <div className="flex justify-center">
             <Calendar
@@ -141,7 +133,7 @@ export function DateRangePicker({
               onSelect={handleRangeSelect}
               disabled={isDateDisabled}
               modifiers={modifiers}
-              numberOfMonths={2}
+              numberOfMonths={1}
               className="rounded-lg border shadow-sm"
               showOutsideDays={false}
             />
@@ -173,6 +165,17 @@ export function DateRangePicker({
               <div className="w-3 h-3 bg-red-500 rounded mr-2"></div>
               Blackout periods
             </div>
+          </div>
+
+          {/* Confirm Button */}
+          <div className="flex justify-end pt-4">
+            <Button
+              onClick={() => setOpen(false)}
+              disabled={!selectedRange?.from || !selectedRange?.to || !isValidBookingRange(selectedRange)}
+              className="px-6 py-2"
+            >
+              Confirm Dates
+            </Button>
           </div>
         </div>
       </DialogContent>
