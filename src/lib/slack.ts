@@ -1,5 +1,6 @@
 import { WebClient } from '@slack/web-api';
 import { formatDateRange } from './rules'
+import crypto from 'crypto'
 
 const slack = new WebClient(process.env.SLACK_BOT_TOKEN)
 
@@ -142,7 +143,6 @@ export function verifySlackSignature(
   signature: string,
   timestamp: string
 ): boolean {
-  const crypto = require('crypto')
   const signingSecret = process.env.SLACK_SIGNING_SECRET!
   
   // Check if timestamp is within 5 minutes

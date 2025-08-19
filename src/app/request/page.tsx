@@ -276,8 +276,8 @@ export default function RequestPage() {
             Paws Boarding Request
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Tell us about your furry friend and when you'd like them to stay with us. 
-            We'll notify you within 2-4 hours.
+            Tell us about your furry friend and when you&apos;d like them to stay with us. 
+            We&apos;ll notify you within 2-4 hours.
           </p>
         </div>
 
@@ -549,7 +549,7 @@ export default function RequestPage() {
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">Confirm Your Booking Request</h3>
                 <p className="text-gray-600 mb-6">
-                  Are you ready to submit your booking request? We'll review it and get back to you within 24 hours.
+                  Are you ready to submit your booking request? We&apos;ll review it and get back to you within 24 hours.
                 </p>
                 
                 <div className="bg-gray-50 rounded-lg p-4 mb-6 text-left">

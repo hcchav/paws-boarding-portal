@@ -20,7 +20,7 @@ export default function ApprovedPage() {
           </div>
 
           <div className="bg-green-50 border border-green-200 rounded-lg p-6 mb-6">
-            <h2 className="text-lg font-semibold text-green-800 mb-2">What's Next?</h2>
+            <h2 className="text-lg font-semibold text-green-800 mb-2">What&apos;s Next?</h2>
             <ul className="text-green-700 space-y-2 text-left">
               <li className="flex items-start">
                 <span className="text-green-600 mr-2">✓</span>

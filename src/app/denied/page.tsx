@@ -13,10 +13,10 @@ export default function DeniedPage() {
               </svg>
             </div>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              😔 Booking Not Available
+              🐾 Booking Not Available
             </h1>
             <p className="text-lg text-gray-600">
-              We'll do our best to accommodate your furry friend! Unfortunately, we're unable to accommodate your booking request for the selected dates.
+                We&apos;ll do our best to accommodate your furry friend! Unfortunately, we&apos;re unable to accommodate your booking request for the selected dates.
             </p>
           </div>
 
@@ -24,11 +24,11 @@ export default function DeniedPage() {
             <h2 className="text-lg font-semibold text-red-800 mb-2">Common Reasons</h2>
             <ul className="text-red-700 space-y-2 text-left">
               <li className="flex items-start">
-                <p className="text-gray-600 mb-6">We're sorry, but we don't have availability for your requested dates.</p>
+                <p className="text-gray-600 mb-6">We&apos;re sorry, but we don&apos;t have availability for your requested dates.</p>
               </li>
               <li className="flex items-start">
                 <span className="text-red-600 mr-2">🏠</span>
-                We've reached capacity for that time period
+                We&apos;ve reached capacity for that time period
               </li>
               <li className="flex items-start">
                 <span className="text-red-600 mr-2">📋</span>
@@ -36,7 +36,7 @@ export default function DeniedPage() {
               </li>
               <li className="flex items-start">
                 <span className="text-red-600 mr-2">🗓️</span>
-                Dates don't align with our booking policies
+                Dates don&apos;t align with our booking policies
               </li>
             </ul>
           </div>

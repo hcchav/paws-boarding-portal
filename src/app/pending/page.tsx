@@ -29,11 +29,11 @@ export default function PendingPage() {
               </li>
               <li className="flex items-start">
                 <span className="text-yellow-600 mr-2">⚡</span>
-                We'll review your request and get back to you within 2-4 hours during business hours
+                We&apos;ll review your request and get back to you within 2-4 hours during business hours
               </li>
               <li className="flex items-start">
                 <span className="text-yellow-600 mr-2">📧</span>
-                You'll receive an email notification once we approve or need more info
+                You&apos;ll receive an email notification once we approve or need more info
               </li>
               <li className="flex items-start">
                 <span className="text-yellow-600 mr-2">📱</span>
