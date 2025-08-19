@@ -19,10 +19,7 @@ export interface AvailabilityCheck {
   conflictingEvents?: string[]
 }
 
-export async function checkAvailability(
-  startDate: string,
-  endDate: string
-): Promise<AvailabilityCheck> {
+export async function checkAvailability(startDate: string, endDate: string): Promise<{ isAvailable: boolean; conflictingEvents?: string[] }> {
   try {
     const calendar = getCalendarClient()
     const calendarId = process.env.GOOGLE_CALENDAR_ID!
@@ -42,34 +39,35 @@ export async function checkAvailability(
       orderBy: 'startTime',
     })
 
-    const events = response.data.items || []
+    const events: unknown[] = response.data.items || [];
     
     if (events.length === 0) {
       return { isAvailable: true }
     }
 
     // Treat any event (including all-day) as a conflict
-    const conflictingEvents = events
+    const conflictingEvents = (events as { summary?: string }[])
       .map(event => event.summary || 'Unnamed event')
 
     return {
       isAvailable: conflictingEvents.length === 0,
       conflictingEvents: conflictingEvents.length > 0 ? conflictingEvents : undefined
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Calendar availability check failed:', error)
+    const err = error as { message?: string; code?: number; status?: number };
     console.error('Error details:', {
-      message: error.message,
-      code: error.code,
-      status: error.status,
+      message: err.message,
+      code: err.code,
+      status: err.status,
       calendarId: process.env.GOOGLE_CALENDAR_ID?.substring(0, 20) + '...'
     })
     
     // Provide more specific error messages based on the error type
     let errorMessage = 'Calendar check failed - please try again'
-    if (error.code === 404) {
+    if (err.code === 404) {
       errorMessage = 'Calendar not found - check GOOGLE_CALENDAR_ID configuration'
-    } else if (error.code === 403) {
+    } else if (err.code === 403) {
       errorMessage = 'Calendar access denied - check service account permissions'
     }
     

@@ -1,4 +1,4 @@
-import { WebClient } from '@slack/web-api'
+import { WebClient } from '@slack/web-api';
 import { formatDateRange } from './rules'
 
 const slack = new WebClient(process.env.SLACK_BOT_TOKEN)

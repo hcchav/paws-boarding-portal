@@ -50,7 +50,7 @@ async function checkCalendarAvailability(startDate: string, endDate: string): Pr
 }
 
 // Helper function to send Slack notification (placeholder for now)
-async function sendSlackNotification(bookingData: any): Promise<string | null> {
+async function sendSlackNotification(bookingData: { id: string }): Promise<string | null> {
   // TODO: Implement Slack integration
   console.log('Sending Slack notification for booking:', bookingData.id);
   
@@ -165,7 +165,7 @@ export async function POST(request: NextRequest) {
       success: true,
       bookingId: booking.id,
       status: status,
-      message: getStatusMessage(status, isVip),
+      message: getStatusMessage(status),
     });
 
   } catch (error) {
@@ -177,7 +177,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-function getStatusMessage(status: string, isVip: boolean): string {
+function getStatusMessage(status: string): string {
   switch (status) {
     case 'AUTO_APPROVED':
       return 'Your booking has been automatically approved! You\'ll receive a confirmation email shortly.';

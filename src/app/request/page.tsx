@@ -23,7 +23,6 @@ export default function RequestPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [showTooltip, setShowTooltip] = useState(false);
 
   const totalSteps = 3; // Your Info, Booking Dates, Review
 
@@ -43,8 +42,8 @@ export default function RequestPage() {
           console.log('Blackout dates set:', dates.map((d: Date) => d.toDateString()));
           setBlackoutDates(dates);
         }
-      } catch (error) {
-        console.error('Failed to fetch blackout dates:', error);
+      } catch {
+        console.error('Failed to fetch blackout dates');
       }
     };
 
@@ -258,7 +257,7 @@ export default function RequestPage() {
       } else {
         setErrors({ submit: result.error || 'Something went wrong. Please try again.' });
       }
-    } catch (error) {
+    } catch {
       setErrors({ submit: 'Network error. Please check your connection and try again.' });
     } finally {
       setIsSubmitting(false);
@@ -278,7 +277,7 @@ export default function RequestPage() {
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Tell us about your furry friend and when you'd like them to stay with us. 
-            We'll review your request and get back to you within 24 hours.
+            We'll notify you within 2-4 hours.
           </p>
         </div>
 
@@ -532,7 +531,7 @@ export default function RequestPage() {
               <p className="text-center text-sm text-gray-500 mt-4">
                 {currentStep < 3 
                   ? `Step ${currentStep} of ${totalSteps}`
-                  : "We'll review your request and get back to you within 24 hours"
+                  : "We'll send you a confirmation email shortly."
                 }
               </p>
             </div>

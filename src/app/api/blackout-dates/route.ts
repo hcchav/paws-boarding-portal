@@ -1,6 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getCalendarClient } from '@/lib/calendar';
-import { addMonths, startOfMonth, endOfMonth, eachDayOfInterval, format, parseISO } from 'date-fns';
+import { format, eachDayOfInterval, parseISO, addMonths, startOfMonth, endOfMonth } from 'date-fns';
+
+interface CalendarEvent {
+  start?: {
+    date?: string | null;
+    dateTime?: string | null;
+  };
+  end?: {
+    date?: string | null;
+    dateTime?: string | null;
+  };
+  summary?: string | null;
+}
 
 export async function GET(request: NextRequest) {
   try {
@@ -52,9 +64,9 @@ export async function GET(request: NextRequest) {
       dayEnd.setHours(23, 59, 59, 999);
 
       // Check if any events overlap with this day
-      const conflictingEvents: any[] = [];
+      const conflictingEvents: CalendarEvent[] = [];
       
-      events.forEach((event: any) => {
+      (events as CalendarEvent[]).forEach((event: CalendarEvent) => {
         if (!event.start || !event.end) return;
 
         let eventStart: Date;
@@ -76,28 +88,18 @@ export async function GET(request: NextRequest) {
           eventStart = new Date(eventStartDateTime.getFullYear(), eventStartDateTime.getMonth(), eventStartDateTime.getDate());
           eventEnd = new Date(eventEndDateTime.getFullYear(), eventEndDateTime.getMonth(), eventEndDateTime.getDate());
         } else {
-          return;
+          return; // Skip events without proper date/time
         }
 
-        // Check if event overlaps with this day
+        // Check if the event overlaps with the current day
         if (eventStart <= dayEnd && eventEnd >= dayStart) {
-          conflictingEvents.push({
-            summary: event.summary || 'Unnamed event',
-            start: event.start.date || event.start.dateTime,
-            end: event.end.date || event.end.dateTime,
-            eventStart: eventStart.toISOString(),
-            eventEnd: eventEnd.toISOString()
-          });
+          conflictingEvents.push(event);
         }
       });
 
       if (conflictingEvents.length > 0) {
         blackoutDates.push(dayStr);
-        console.log(`🚫 Blackout date: ${dayStr}`);
-        conflictingEvents.forEach(event => {
-          console.log(`   📋 Event: "${event.summary}" (${event.start} to ${event.end})`);
-          console.log(`   🕒 Parsed: ${event.eventStart} to ${event.eventEnd}`);
-        });
+        console.log(`📅 Blackout date found: ${dayStr} (${conflictingEvents.length} events)`);
       }
     }
 

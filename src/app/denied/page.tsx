@@ -1,3 +1,6 @@
+import React from 'react';
+import Link from 'next/link';
+
 export default function DeniedPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 to-rose-100 py-12 px-4 sm:px-6 lg:px-8">
@@ -13,7 +16,7 @@ export default function DeniedPage() {
               😔 Booking Not Available
             </h1>
             <p className="text-lg text-gray-600">
-              Unfortunately, we're unable to accommodate your booking request for the selected dates.
+              We'll do our best to accommodate your furry friend! Unfortunately, we're unable to accommodate your booking request for the selected dates.
             </p>
           </div>
 
@@ -21,8 +24,7 @@ export default function DeniedPage() {
             <h2 className="text-lg font-semibold text-red-800 mb-2">Common Reasons</h2>
             <ul className="text-red-700 space-y-2 text-left">
               <li className="flex items-start">
-                <span className="text-red-600 mr-2">📅</span>
-                No availability during your requested dates
+                <p className="text-gray-600 mb-6">We're sorry, but we don't have availability for your requested dates.</p>
               </li>
               <li className="flex items-start">
                 <span className="text-red-600 mr-2">🏠</span>
@@ -71,12 +73,12 @@ export default function DeniedPage() {
               </a>
             </div>
             <div>
-              <a
+              <Link
                 href="/"
                 className="text-gray-600 hover:text-gray-800 transition-colors"
               >
                 ← Back to Home
-              </a>
+              </Link>
             </div>
           </div>
         </div>

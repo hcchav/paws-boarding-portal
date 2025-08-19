@@ -14,25 +14,23 @@ export const supabase = createClient(supabaseUrl, supabaseKey);
 export interface BookingRequestData {
   parent_name: string;
   email: string;
-  phone: string | null;
+  phone?: string | null;
   dog_name: string;
-  dog_breed: string | null;
-  dog_age: number | null;
+  dog_breed?: string | null;
+  dog_age?: number | null;
   start_date: string;
   end_date: string;
-  is_vip: boolean | { isVip: boolean; vipLevel: any; totalBookings: any; };
-  status: 'PENDING' | 'APPROVED' | 'DENIED' | 'AUTO_APPROVED';
-  notes: string | null;
-  slack_message_ts: string | null;
+  is_vip: boolean;
+  status: string;
+  notes?: string | null;
+  slack_message_ts?: string | null;
 }
 
 // Create a new booking request
-export async function createBookingRequest(bookingData: BookingRequestData) {
+export async function createBookingRequest(bookingData: BookingRequestData): Promise<{ id: string; [key: string]: unknown }> {
   try {
-    // Normalize the is_vip field to boolean
-    const isVipBoolean = typeof bookingData.is_vip === 'boolean' 
-      ? bookingData.is_vip 
-      : bookingData.is_vip.isVip;
+    // Use the is_vip field directly since it's already boolean
+    const isVipBoolean = bookingData.is_vip;
 
     const { data, error } = await supabase
       .from('paws_booking_requests')

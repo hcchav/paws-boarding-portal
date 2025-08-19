@@ -1,3 +1,6 @@
+import React from 'react';
+import Link from 'next/link';
+
 export default function PendingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-amber-100 py-12 px-4 sm:px-6 lg:px-8">
@@ -26,7 +29,7 @@ export default function PendingPage() {
               </li>
               <li className="flex items-start">
                 <span className="text-yellow-600 mr-2">⚡</span>
-                We typically respond within 2-4 hours during business hours
+                We'll review your request and get back to you within 2-4 hours during business hours
               </li>
               <li className="flex items-start">
                 <span className="text-yellow-600 mr-2">📧</span>
@@ -54,12 +57,12 @@ export default function PendingPage() {
               Make Another Booking
             </a>
             <div>
-              <a
+              <Link
                 href="/"
                 className="text-gray-600 hover:text-gray-800 transition-colors"
               >
                 ← Back to Home
-              </a>
+              </Link>
             </div>
           </div>
         </div>

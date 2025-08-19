@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function ApprovedPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 py-12 px-4 sm:px-6 lg:px-8">
@@ -22,11 +24,11 @@ export default function ApprovedPage() {
             <ul className="text-green-700 space-y-2 text-left">
               <li className="flex items-start">
                 <span className="text-green-600 mr-2">✓</span>
-                You'll receive a confirmation email shortly with all the details
+                You&apos;ll receive a confirmation email shortly with all the details
               </li>
               <li className="flex items-start">
                 <span className="text-green-600 mr-2">✓</span>
-                We'll send you a reminder 24 hours before your booking
+                We&apos;ll send you a reminder 24 hours before your booking
               </li>
               <li className="flex items-start">
                 <span className="text-green-600 mr-2">✓</span>
@@ -43,12 +45,12 @@ export default function ApprovedPage() {
               Make Another Booking
             </a>
             <div>
-              <a
+              <Link
                 href="/"
                 className="text-gray-600 hover:text-gray-800 transition-colors"
               >
                 ← Back to Home
-              </a>
+              </Link>
             </div>
           </div>
         </div>

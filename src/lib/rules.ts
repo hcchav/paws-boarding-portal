@@ -1,4 +1,4 @@
-import { format, isWeekend, getDay, parseISO, isBefore, isAfter, addDays } from 'date-fns'
+import { format, parseISO, isBefore, isAfter } from 'date-fns'
 
 export interface BookingValidation {
   isValid: boolean
@@ -27,7 +27,7 @@ export function validateBookingDates(startDate: string, endDate: string): Bookin
       isValid: errors.length === 0,
       errors
     }
-  } catch (error) {
+  } catch {
     return {
       isValid: false,
       errors: ['Invalid date format']
