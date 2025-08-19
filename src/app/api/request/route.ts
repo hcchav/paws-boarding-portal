@@ -21,17 +21,9 @@ function validateBookingRules(startDate: string, endDate: string): string | null
   const start = new Date(startDate);
   const end = new Date(endDate);
   
-  const startDay = start.getDay(); // 0 = Sunday, 1 = Monday, etc.
-  const endDay = end.getDay();
-  
-  // Check if it's a weeknight booking (Mon-Thu)
-  const isWeeknight = startDay >= 1 && startDay <= 4 && endDay >= 1 && endDay <= 4;
-  
-  // Check if it's a valid weekend package (Fri-Mon)
-  const isValidWeekend = startDay === 5 && endDay === 1; // Friday to Monday
-  
-  if (!isWeeknight && !isValidWeekend) {
-    return 'Bookings are only allowed for weeknights (Mon-Thu) or weekend packages (Fri-Mon only).';
+  // Basic validation - just check that end date is after start date
+  if (end <= start) {
+    return 'End date must be after start date';
   }
   
   return null;

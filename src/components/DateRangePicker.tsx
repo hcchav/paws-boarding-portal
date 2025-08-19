@@ -34,20 +34,10 @@ export function DateRangePicker({
   const [open, setOpen] = React.useState(false)
   const [selectedRange, setSelectedRange] = React.useState<DateRange | undefined>(value)
 
-  // Booking rules validation
+  // Basic date range validation
   const isValidBookingRange = (range: DateRange | undefined): boolean => {
     if (!range?.from || !range?.to) return false
-
-    const startDay = range.from.getDay() // 0 = Sunday, 1 = Monday, etc.
-    const endDay = range.to.getDay()
-
-    // Check if it's a weeknight booking (Mon-Thu)
-    const isWeeknight = startDay >= 1 && startDay <= 4 && endDay >= 1 && endDay <= 4
-
-    // Check if it's a valid weekend package (Fri-Mon)
-    const isValidWeekend = startDay === 5 && endDay === 1 // Friday to Monday
-
-    return isWeeknight || isValidWeekend
+    return true // Allow any date range as long as both dates are selected
   }
 
   // Disabled dates logic
@@ -111,10 +101,6 @@ export function DateRangePicker({
       return "Select start and end dates for your booking"
     }
 
-    if (!isValidBookingRange(selectedRange)) {
-      return "⚠️ Invalid dates: Choose weeknights (Mon-Thu) or weekend package (Fri-Mon only)"
-    }
-
     return "✅ Valid booking dates selected"
   }
 
@@ -138,14 +124,12 @@ export function DateRangePicker({
           <DialogTitle>Select Boarding Dates</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
-          {/* Booking Rules Info */}
+          {/* Calendar Instructions */}
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h3 className="font-semibold text-blue-800 mb-2">Booking Rules</h3>
-            <ul className="text-blue-700 text-sm space-y-1">
-              <li>• <strong>Weeknights:</strong> Monday to Thursday arrivals and departures</li>
-              <li>• <strong>Weekend Package:</strong> Friday arrival, Monday departure only</li>
-              <li>• <strong>No Saturday or Sunday</strong> arrivals/departures (except weekend packages)</li>
-            </ul>
+            <h3 className="font-semibold text-blue-800 mb-2">Select Your Dates</h3>
+            <p className="text-blue-700 text-sm">
+              Choose your check-in and check-out dates. Red dates are unavailable due to existing bookings.
+            </p>
           </div>
 
           {/* Calendar */}

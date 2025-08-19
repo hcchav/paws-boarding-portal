@@ -23,25 +23,6 @@ export function validateBookingDates(startDate: string, endDate: string): Bookin
       errors.push('Start date must be in the future')
     }
     
-    const startDay = getDay(start) // 0 = Sunday, 1 = Monday, etc.
-    const endDay = getDay(end)
-    
-    // Weekend package validation: Must be Fri → Mon
-    if (isWeekend(start) || isWeekend(end)) {
-      // If either date is weekend, it must be a Fri-Mon package
-      if (!(startDay === 5 && endDay === 1)) { // Friday to Monday
-        errors.push('Weekend packages must be Friday arrival to Monday departure only')
-      }
-    } else {
-      // Weeknight validation: Mon-Thu only
-      if (startDay === 0 || startDay === 6) { // Sunday or Saturday
-        errors.push('Weeknight arrivals must be Monday through Thursday only')
-      }
-      if (endDay === 0 || endDay === 6) { // Sunday or Saturday  
-        errors.push('Weeknight departures must be Monday through Thursday only')
-      }
-    }
-    
     return {
       isValid: errors.length === 0,
       errors
@@ -64,22 +45,14 @@ export function formatDateRange(startDate: string, endDate: string): string {
   }
 }
 
-export function getBookingType(startDate: string, endDate: string): 'weeknight' | 'weekend' | 'invalid' {
+export function getBookingType(startDate: string, endDate: string): 'standard' | 'invalid' {
   try {
     const start = parseISO(startDate)
     const end = parseISO(endDate)
     
-    const startDay = getDay(start)
-    const endDay = getDay(end)
-    
-    // Weekend package: Friday to Monday
-    if (startDay === 5 && endDay === 1) {
-      return 'weekend'
-    }
-    
-    // Weeknight: Mon-Thu arrivals and departures
-    if (startDay >= 1 && startDay <= 4 && endDay >= 1 && endDay <= 4) {
-      return 'weeknight'
+    // All valid date ranges are now considered 'standard'
+    if (isAfter(end, start)) {
+      return 'standard'
     }
     
     return 'invalid'

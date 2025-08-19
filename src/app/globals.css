@@ -60,14 +60,18 @@ body {
 }
 
 /* Blackout dates styling - red to match legend */
-.rdp-day_blackoutDate {
+.rdp-day_blackoutDate,
+[data-blackout-date="true"],
+.blackoutDate {
   background-color: #dc2626 !important; /* bg-red-500 to match legend */
   color: white !important;
   opacity: 0.75 !important;
   cursor: not-allowed !important;
 }
 
-.rdp-day_blackoutDate:hover {
+.rdp-day_blackoutDate:hover,
+[data-blackout-date="true"]:hover,
+.blackoutDate:hover {
   background-color: #dc2626 !important;
   color: white !important;
 }
