@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { checkAvailability } from '@/lib/calendar';
-import { addMonths, startOfMonth, endOfMonth, eachDayOfInterval, format } from 'date-fns';
+import { getCalendarClient } from '@/lib/calendar';
+import { addMonths, startOfMonth, endOfMonth, eachDayOfInterval, format, parseISO } from 'date-fns';
 
 export async function GET(request: NextRequest) {
   try {
@@ -14,39 +14,94 @@ export async function GET(request: NextRequest) {
     const startDateStr = format(startOfMonth(today), 'yyyy-MM-dd');
     const endDateStr = format(endOfMonth(endDate), 'yyyy-MM-dd');
 
-    // Get all events from Google Calendar for the date range
-    const availability = await checkAvailability(startDateStr, endDateStr);
-    
-    // For this API, we want to return the dates that are NOT available
-    // We'll check each day individually to build a comprehensive blackout list
-    const blackoutDates: string[] = [];
-    
-    // Generate all days in the range and check each one
+    // Single batch query to Google Calendar for the entire date range
+    const calendar = getCalendarClient();
+    const calendarId = process.env.GOOGLE_CALENDAR_ID!;
+
+    console.log(`🔍 Batch querying calendar from ${startDateStr} to ${endDateStr}`);
+    console.log(`📅 Using calendar ID: ${calendarId?.substring(0, 20)}...`);
+
+    const timeMin = parseISO(startDateStr).toISOString();
+    const timeMax = parseISO(endDateStr).toISOString();
+
+    const response = await calendar.events.list({
+      calendarId,
+      timeMin,
+      timeMax,
+      singleEvents: true,
+      orderBy: 'startTime',
+    });
+
+    const events = response.data.items || [];
+    console.log(`📋 Found ${events.length} events in date range`);
+
+    // Generate all days in the range
     const allDays = eachDayOfInterval({
       start: startOfMonth(today),
       end: endOfMonth(endDate)
     });
 
-    console.log(`🔍 Checking ${allDays.length} individual days for availability`);
-
-    // Check each day individually (this is more granular than the booking check)
+    // Build blackout dates by checking which days have events
+    const blackoutDates: string[] = [];
+    
     for (const day of allDays) {
       const dayStr = format(day, 'yyyy-MM-dd');
-      const nextDayStr = format(new Date(day.getTime() + 24 * 60 * 60 * 1000), 'yyyy-MM-dd');
+      const dayStart = new Date(day);
+      dayStart.setHours(0, 0, 0, 0);
+      const dayEnd = new Date(day);
+      dayEnd.setHours(23, 59, 59, 999);
+
+      // Check if any events overlap with this day
+      const conflictingEvents: any[] = [];
       
-      try {
-        const dayAvailability = await checkAvailability(dayStr, nextDayStr);
-        if (!dayAvailability.isAvailable) {
-          blackoutDates.push(dayStr);
+      events.forEach((event: any) => {
+        if (!event.start || !event.end) return;
+
+        let eventStart: Date;
+        let eventEnd: Date;
+
+        // Handle all-day events
+        if (event.start.date) {
+          eventStart = parseISO(event.start.date);
+          eventEnd = parseISO(event.end!.date!);
+          // All-day events end date is exclusive, so subtract 1 day
+          eventEnd.setDate(eventEnd.getDate() - 1);
+        } else if (event.start.dateTime) {
+          // For timed events, we need to check if the event occurs on the local date
+          // Parse the datetime and extract the local date portion
+          const eventStartDateTime = new Date(event.start.dateTime);
+          const eventEndDateTime = new Date(event.end!.dateTime!);
+          
+          // Create date objects using the local date components
+          eventStart = new Date(eventStartDateTime.getFullYear(), eventStartDateTime.getMonth(), eventStartDateTime.getDate());
+          eventEnd = new Date(eventEndDateTime.getFullYear(), eventEndDateTime.getMonth(), eventEndDateTime.getDate());
+        } else {
+          return;
         }
-      } catch (error) {
-        console.error(`Error checking availability for ${dayStr}:`, error);
-        // If there's an error checking a specific day, mark it as blackout for safety
+
+        // Check if event overlaps with this day
+        if (eventStart <= dayEnd && eventEnd >= dayStart) {
+          conflictingEvents.push({
+            summary: event.summary || 'Unnamed event',
+            start: event.start.date || event.start.dateTime,
+            end: event.end.date || event.end.dateTime,
+            eventStart: eventStart.toISOString(),
+            eventEnd: eventEnd.toISOString()
+          });
+        }
+      });
+
+      if (conflictingEvents.length > 0) {
         blackoutDates.push(dayStr);
+        console.log(`🚫 Blackout date: ${dayStr}`);
+        conflictingEvents.forEach(event => {
+          console.log(`   📋 Event: "${event.summary}" (${event.start} to ${event.end})`);
+          console.log(`   🕒 Parsed: ${event.eventStart} to ${event.eventEnd}`);
+        });
       }
     }
 
-    console.log(`📅 Found ${blackoutDates.length} blackout dates`);
+    console.log(`📅 Found ${blackoutDates.length} blackout dates: [${blackoutDates.join(', ')}]`);
 
     return NextResponse.json({
       success: true,

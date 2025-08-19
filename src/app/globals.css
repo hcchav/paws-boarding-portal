@@ -46,4 +46,30 @@ body {
   height: 36px !important;
 }
 
+/* Past dates styling - gray to match legend */
+.rdp-day_pastDate {
+  background-color: #d1d5db !important; /* bg-gray-300 to match legend */
+  color: #6b7280 !important; /* text-gray-500 */
+  opacity: 0.6 !important;
+  cursor: not-allowed !important;
+}
+
+.rdp-day_pastDate:hover {
+  background-color: #d1d5db !important;
+  color: #6b7280 !important;
+}
+
+/* Blackout dates styling - red to match legend */
+.rdp-day_blackoutDate {
+  background-color: #dc2626 !important; /* bg-red-500 to match legend */
+  color: white !important;
+  opacity: 0.75 !important;
+  cursor: not-allowed !important;
+}
+
+.rdp-day_blackoutDate:hover {
+  background-color: #dc2626 !important;
+  color: white !important;
+}
+
 

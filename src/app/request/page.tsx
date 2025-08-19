@@ -44,9 +44,15 @@ export default function RequestPage() {
         const data = await response.json();
         
         if (data.success && data.blackoutDates) {
-          const dates = data.blackoutDates.map((dateStr: string) => new Date(dateStr));
+          const dates = data.blackoutDates.map((dateStr: string) => {
+            // Parse date string as local date to avoid timezone shifts
+            const [year, month, day] = dateStr.split('-').map(Number);
+            return new Date(year, month - 1, day); // month is 0-indexed
+          });
           setBlackoutDates(dates);
-          console.log(`📅 Loaded ${dates.length} blackout dates from calendar`);
+          console.log(`📅 Loaded ${dates.length} blackout dates from calendar:`, data.blackoutDates);
+          console.log(`📅 Parsed dates:`, dates.map((d: Date) => d.toDateString()));
+          console.log(`📅 Parsed dates (ISO):`, dates.map((d: Date) => d.toISOString()));
         }
       } catch (error) {
         console.error('Failed to fetch blackout dates:', error);

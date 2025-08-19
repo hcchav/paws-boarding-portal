@@ -20,11 +20,14 @@ function Calendar({
       className={cn("p-3", className)}
       weekStartsOn={0}
       modifiersClassNames={{
-        selected: "bg-slate-900 text-slate-50 hover:bg-slate-900 hover:text-slate-50",
-        range_start: "bg-slate-900 text-slate-50",
-        range_end: "bg-slate-900 text-slate-50",
-        range_middle: "bg-slate-600 text-white",
-        today: "bg-accent text-accent-foreground font-semibold"
+        selected: "bg-blue-600 text-white hover:bg-blue-600 hover:text-white",
+        range_start: "bg-blue-600 text-white",
+        range_end: "bg-blue-600 text-white",
+        range_middle: "bg-blue-400 text-white",
+        today: "bg-accent text-accent-foreground font-semibold",
+        disabled: "bg-gray-300 text-gray-500 opacity-60 hover:bg-gray-300 hover:text-gray-500",
+        pastDate: "bg-gray-300 text-gray-500 opacity-60 hover:bg-gray-300 hover:text-gray-500",
+        blackoutDate: "bg-red-500 text-white opacity-75 hover:bg-red-500 hover:text-white"
       }}
       classNames={{
         months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0 relative",

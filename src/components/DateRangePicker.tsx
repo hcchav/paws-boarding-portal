@@ -59,13 +59,29 @@ export function DateRangePicker({
     if (date < today) return true
 
     // Disable blackout dates from Google Calendar
-    if (blackoutDates.some(blackoutDate => 
+    const isBlackout = blackoutDates.some(blackoutDate => 
       date.toDateString() === blackoutDate.toDateString()
-    )) return true
+    );
+    
+    if (isBlackout) return true;
 
     // For range selection, we need to allow individual dates
     // but validate the full range when both dates are selected
     return false
+  }
+
+  // Custom modifiers for different types of disabled dates
+  const modifiers = {
+    pastDate: (date: Date) => {
+      const today = new Date()
+      today.setHours(0, 0, 0, 0)
+      return date < today
+    },
+    blackoutDate: (date: Date) => {
+      return blackoutDates.some(blackoutDate => 
+        date.toDateString() === blackoutDate.toDateString()
+      )
+    }
   }
 
   const handleRangeSelect = (range: DateRange | undefined) => {
@@ -140,6 +156,7 @@ export function DateRangePicker({
               selected={selectedRange}
               onSelect={handleRangeSelect}
               disabled={isDateDisabled}
+              modifiers={modifiers}
               numberOfMonths={2}
               className="rounded-lg border shadow-sm"
               showOutsideDays={false}
