@@ -21,9 +21,9 @@ function Calendar({
       weekStartsOn={0}
       modifiersClassNames={{
         selected: "bg-blue-600 text-white hover:bg-blue-600 hover:text-white",
-        range_start: "bg-blue-600 text-white",
-        range_end: "bg-blue-600 text-white",
-        range_middle: "bg-blue-400 text-gray-900",
+        range_start: "bg-red-500 text-white hover:bg-red-500 hover:text-white",
+        range_end: "bg-blue-600 text-white hover:bg-blue-600 hover:text-white",
+        range_middle: "bg-blue-100 text-blue-900",
         today: "bg-accent text-accent-foreground font-semibold",
         disabled: "bg-gray-300 text-gray-500 opacity-60 hover:bg-gray-300 hover:text-gray-500",
         pastDate: "bg-gray-300 text-gray-500 opacity-60 hover:bg-gray-300 hover:text-gray-500",
