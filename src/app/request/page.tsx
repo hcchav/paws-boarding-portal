@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { DateRange } from 'react-day-picker';
 import { format } from 'date-fns';
 import { DateRangePickerNew } from '@/components/DateRangePickerNew';
 

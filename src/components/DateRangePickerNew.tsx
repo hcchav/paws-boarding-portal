@@ -9,14 +9,6 @@ import { CalendarIcon } from "lucide-react"
 import { format } from "date-fns"
 
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
 
 interface DateRangePickerNewProps {
   value?: { from: Date | undefined; to: Date | undefined }
@@ -30,10 +22,8 @@ export function DateRangePickerNew({
   value,
   onChange,
   placeholder = "Select booking dates",
-  className,
   blackoutDates = [],
 }: DateRangePickerNewProps) {
-  const [open, setOpen] = useState(false)
   const [startDate, setStartDate] = useState<Date | null>(value?.from || null)
   const [endDate, setEndDate] = useState<Date | null>(value?.to || null)
   const [fetchedBlackoutDates, setFetchedBlackoutDates] = useState<Date[]>([])

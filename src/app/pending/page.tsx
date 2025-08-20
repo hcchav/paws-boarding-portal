@@ -48,7 +48,7 @@ export default function PendingPage() {
                   </div>
                   <div>
                     <p className="text-amber-800 font-medium">Quick Review</p>
-                    <p className="text-amber-700 text-sm">We'll review your request and get back to you within 2-4 hours during business hours</p>
+                    <p className="text-amber-700 text-sm">We&apos;ll review your request and get back to you within 2-4 hours during business hours</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
@@ -57,7 +57,7 @@ export default function PendingPage() {
                   </div>
                   <div>
                     <p className="text-amber-800 font-medium">Email Confirmation</p>
-                    <p className="text-amber-700 text-sm">You'll receive an email notification once we approve or need more info</p>
+                    <p className="text-amber-700 text-sm">You&apos;ll receive an email notification once we approve or need more info</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
